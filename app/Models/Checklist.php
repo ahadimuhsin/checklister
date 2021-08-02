@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Checklist extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $guarded = [];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

@@ -57,7 +57,6 @@ class ChecklistController extends Controller
      */
     public function edit(ChecklistGroup $checklist_group, Checklist $checklist)
     {
-        //
         return view('admin.checklists.edit', compact('checklist_group', 'checklist'));
     }
 

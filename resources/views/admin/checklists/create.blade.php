@@ -28,7 +28,7 @@
                                         <div class="form-group">
                                             <label for="name">{{ __('Name') }}</label>
                                             <input class="form-control" id="name" name="name" type="text"
-                                                placeholder="{{ __('Checklist Name') }}">
+                                                placeholder="{{ __('Checklist Name') }}" value="{{ old('name') }}">
                                         </div>
                                     </div>
                                 </div>
