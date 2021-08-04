@@ -56,29 +56,8 @@
                 <div class="card">
                     <div class="card-header"><i class="fa fa-align-justify"></i> List of Tasks</div>
                     <div class="card-body">
-                        <table class="table table-responsive-sm">
-                            <tbody>
-                                @foreach ($checklist->tasks as $task)
-                                <tr>
-                                    <td>{{ $task->name }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.checklists.tasks.edit', [$checklist, $task]) }}"
-                                        class="btn btn-sm btn-warning">{{ __('Edit') }}</a>
-                                        <form style="display: inline-block"
-                                            action="{{ route('admin.checklists.tasks.destroy', [$checklist, $task]) }}"
-                                            method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <button class="btn btn-sm btn-danger" type="submit"
-                                                onclick="return confirm('{{ __('Are you sure?') }}')">
-                                                {{ __('Delete') }}</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
+                        @livewire('tasks-table', ['checklist' => $checklist])
 
-                            </tbody>
-                        </table>
                     </div>
                 </div>
 
@@ -127,4 +106,14 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+ClassicEditor
+        .create( document.querySelector( '#description' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 @endsection

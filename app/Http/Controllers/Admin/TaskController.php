@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Checklist;
 use Illuminate\Http\Request;
 use Psy\VersionUpdater\Checker;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskStoreRequest;
 
@@ -40,7 +41,8 @@ class TaskController extends Controller
     public function store(TaskStoreRequest $request, Checklist $checklist)
     {
         //
-        $checklist->tasks()->create($request->validated());
+        $position = $checklist->tasks()->max('position') + 1;
+        $checklist->tasks()->create($request->validated() + ['position' => $position]);
 
         return redirect()->route('admin.checklist-groups.checklists.edit', [
             $checklist->checklist_group_id, $checklist
@@ -80,6 +82,7 @@ class TaskController extends Controller
     public function update(TaskStoreRequest $request, Checklist $checklist, Task $task)
     {
         //
+
         $task->update($request->validated());
         return redirect()->route('admin.checklist-groups.checklists.edit', [
             $checklist->checklist_group_id, $checklist
@@ -95,6 +98,11 @@ class TaskController extends Controller
     public function destroy(Checklist $checklist, Task $task)
     {
         //
+        //reorder posisi dari task saat ada task yg dihapus
+        $checklist->tasks()->where('position', '>', $task->position)
+        ->update(['position' => DB::raw('position - 1')]);
+
+        //hapus task
         $task->delete();
 
         return redirect()->route('admin.checklist-groups.checklists.edit', [
