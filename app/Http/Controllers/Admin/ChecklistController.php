@@ -28,7 +28,7 @@ class ChecklistController extends Controller
 
         $checklistGroup->checklists()->create($request->all());
 
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 
     public function edit(ChecklistGroup $checklist_group, Checklist $checklist) :View
@@ -44,7 +44,7 @@ class ChecklistController extends Controller
         ]);
         $checklist->update($request->all());
 
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 
     public function destroy(ChecklistGroup $checklist_group, Checklist $checklist) :RedirectResponse
@@ -52,6 +52,6 @@ class ChecklistController extends Controller
         //
         $checklist->delete();
 
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 }

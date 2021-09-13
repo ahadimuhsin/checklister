@@ -8,6 +8,8 @@ use App\Models\ChecklistGroup;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\StoreChecklistGroupRequest;
+use App\Http\Requests\UpdateChecklistGroupRequest;
 
 class ChecklistGroupController extends Controller
 {
@@ -18,16 +20,12 @@ class ChecklistGroupController extends Controller
         return view('admin.checklist-group.create');
     }
 
-    public function store(Request $request) :RedirectResponse
+    public function store(StoreChecklistGroupRequest $request) :RedirectResponse
     {
-        //
-        $this->validate($request, [
-            'name' => 'required|unique:checklist_groups,name'
-        ]);
 
-        ChecklistGroup::create($request->all());
+        ChecklistGroup::create($request->validated());
 
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 
     public function edit(ChecklistGroup $checklist_group) :View
@@ -38,7 +36,7 @@ class ChecklistGroupController extends Controller
         return view('admin.checklist-group.edit', compact('checklist_group'));
     }
 
-    public function update(Request $request,ChecklistGroup $checklist_group) :RedirectResponse
+    public function update(UpdateChecklistGroupRequest $request,ChecklistGroup $checklist_group) :RedirectResponse
     {
         //
         // $checklist_group = ChecklistGroup::findOrFail($id);
@@ -50,7 +48,7 @@ class ChecklistGroupController extends Controller
             'name' => $request->name
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 
     public function destroy(ChecklistGroup $checklist_group) :RedirectResponse
@@ -58,6 +56,6 @@ class ChecklistGroupController extends Controller
         //
         $checklist_group->delete();
 
-        return redirect()->route('home');
+        return redirect()->route('welcome');
     }
 }
